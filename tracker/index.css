@@ -1,3 +1,5 @@
-h1{
-    color: red;
+h1 {
+    color: rgba(115, 0, 255, 0.799);
+    background-color: rgba(37, 146, 56, 0.578);
+    clear: both;
 }
