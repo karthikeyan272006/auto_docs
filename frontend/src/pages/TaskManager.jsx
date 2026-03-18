@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
-import Layout from '../components/Layout';
 import { Play, Pause, Square, Plus, Trash2, Clock } from 'lucide-react';
 
 const TaskManager = () => {
@@ -89,11 +88,11 @@ const TaskManager = () => {
     };
 
     return (
-        <Layout>
+        <>
             <div className="flex justify-between items-end mb-10">
                 <div>
-                    <h1 className="text-4xl font-extrabold text-white tracking-tight mb-2">Task <span className="text-gradient">Manager</span></h1>
-                    <p className="text-slate-400 font-medium">Coordinate your development lifecycle and track velocity.</p>
+                    <h1 className="text-4xl font-extrabold text-black-600 tracking-tight mb-2">Task Manager</h1>
+                    <p className="text-slate-500 ">Coordinate your development lifecycle and track velocity.</p>
                 </div>
                 {activeTask && (
                     <div className="flex items-center space-x-4 px-6 py-3 rounded-2xl glass-card border-indigo-500/30 bg-indigo-500/10 shadow-[0_0_20px_rgba(99,102,241,0.2)] animate-pulse">
@@ -147,7 +146,7 @@ const TaskManager = () => {
                     >
                         <div className="flex items-center space-x-6">
                             <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${task.status === 'completed' ? 'bg-emerald-500/10 text-emerald-400' :
-                                    task.status === 'in-progress' ? 'bg-indigo-500/10 text-indigo-400' : 'bg-slate-500/10 text-slate-400'
+                                task.status === 'in-progress' ? 'bg-indigo-500/10 text-indigo-400' : 'bg-slate-500/10 text-slate-400'
                                 }`}>
                                 {task.status === 'completed' ? <Square size={20} fill="currentColor" /> : <Play size={20} />}
                             </div>
@@ -214,7 +213,7 @@ const TaskManager = () => {
                     </div>
                 )}
             </div>
-        </Layout>
+        </>
 
     );
 };
