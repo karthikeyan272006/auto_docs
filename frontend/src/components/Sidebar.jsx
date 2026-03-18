@@ -11,10 +11,12 @@ import {
     DollarSign,
     Settings,
     Monitor,
-    LogOut
+    LogOut,
+    ArrowLeft,
+    ArrowRight
 } from 'lucide-react';
 
-const Sidebar = () => {
+const Sidebar = ({ isCollapsed = false, setIsCollapsed }) => {
     const { logout, user, loading } = useAuth();
     const navigate = useNavigate();
 
@@ -39,16 +41,26 @@ const Sidebar = () => {
     ];
 
     return (
-        <div className="sidebar-container h-full flex flex-col">
+        <div className={`sidebar-container h-full flex flex-col ${isCollapsed ? 'w-20' : 'w-64'} transition-all duration-300 relative`}>
 
             {/* Logo Section (NO USERNAME HERE) */}
-            <div className="p-5 flex items-center gap-3 border-b border-slate-100">
+            <div className={`p-5 flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} border-b border-slate-100 relative`}>
                 <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 shrink-0">
                     <Clock size={22} />
                 </div>
-                <div className="flex flex-col leading-tight overflow-hidden">
-                    <span className="text-lg font-bold tracking-tight text-slate-800">LogicDocs</span>
-                </div>
+                {!isCollapsed && (
+                    <div className="flex flex-col leading-tight overflow-hidden">
+                        <span className="text-lg font-bold tracking-tight text-slate-800">LogicDocs</span>
+                    </div>
+                )}
+                {setIsCollapsed && (
+                    <button
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        className="absolute -right-3 top-7 w-6 h-6 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-300 transition-colors shadow-sm z-10"
+                    >
+                        {isCollapsed ? <ArrowRight size={14} /> : <ArrowLeft size={14} />}
+                    </button>
+                )}
             </div>
 
             {/* Navigation Links */}
@@ -58,11 +70,12 @@ const Sidebar = () => {
                         key={item.name}
                         to={item.path}
                         className={({ isActive }) =>
-                            `nav-item ${isActive ? 'active' : ''} flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-slate-50`
+                            `nav-item ${isActive ? 'active' : ''} ${isCollapsed ? 'justify-center px-0' : 'px-4'} rounded-xl`
                         }
+                        title={isCollapsed ? item.name : undefined}
                     >
                         {item.icon}
-                        <span className="font-medium">{item.name}</span>
+                        {!isCollapsed && <span className="font-medium">{item.name}</span>}
                     </NavLink>
                 ))}
             </nav>
@@ -71,26 +84,29 @@ const Sidebar = () => {
             <div className="p-4 border-t border-slate-100 flex flex-col gap-3">
 
                 {/* User Card: Avatar + Name + Email */}
-                <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                <div className={`flex items-center ${isCollapsed ? 'justify-center p-2' : 'gap-3 p-3'} rounded-2xl bg-slate-50 border border-slate-100`}>
                     <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
                         {avatarLetter}
                     </div>
-                    <div className="flex flex-col overflow-hidden">
-                        <span className="text-sm font-bold text-slate-800 truncate" title={displayName}>
-                            {loading ? "Loading..." : (user?.name || 'User')}
-                        </span>
-                        <span className="text-xs text-slate-500 truncate" title={displayEmail}>
-                            {user?.email}
-                        </span>
-                    </div>
+                    {!isCollapsed && (
+                        <div className="flex flex-col overflow-hidden">
+                            <span className="text-sm font-bold text-slate-800 truncate" title={displayName}>
+                                {loading ? "Loading..." : (user?.name || 'User')}
+                            </span>
+                            <span className="text-xs text-slate-500 truncate" title={displayEmail}>
+                                {user?.email}
+                            </span>
+                        </div>
+                    )}
                 </div>
 
                 <button
                     onClick={handleLogout}
-                    className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 text-slate-600 hover:bg-red-50 hover:text-red-600 font-medium"
+                    title={isCollapsed ? "Sign Out" : undefined}
+                    className={`flex items-center ${isCollapsed ? 'justify-center p-3' : 'gap-3 p-3'} rounded-xl transition-all duration-200 text-slate-600 hover:bg-red-50 hover:text-red-600 font-medium`}
                 >
                     <LogOut size={20} />
-                    <span>Sign Out</span>
+                    {!isCollapsed && <span>Sign Out</span>}
                 </button>
             </div>
         </div>

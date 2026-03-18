@@ -28,11 +28,11 @@ body {
 
 @layer components {
   .sidebar-container {
-    @apply fixed left-0 top-0 h-screen w-64 bg-white border-r border-slate-200 flex flex-col z-50;
+    @apply fixed left-0 top-0 h-screen bg-white border-r border-slate-200 flex flex-col z-50 transition-all duration-300;
   }
 
   .nav-item {
-    @apply flex items-center gap-3 px-6 py-4 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 cursor-pointer border-l-4 border-transparent;
+    @apply flex items-center gap-3 py-4 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 cursor-pointer border-l-4 border-transparent;
   }
 
   .nav-item.active {
@@ -40,7 +40,7 @@ body {
   }
 
   .main-content {
-    @apply ml-64 p-8 min-h-screen;
+    @apply p-8 min-h-screen transition-all duration-300;
   }
 
   .stat-card {
